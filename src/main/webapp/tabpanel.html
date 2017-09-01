@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>hello-extjs</title>
+    
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+    <!-- 引入extjs样式文件 -->
+    <link rel="stylesheet" type="text/css" href="./Extjs4.2/resources/css/ext-all.css" />
+    <!-- 引入extjs库文件，底层驱动 -->
+    <script type="text/javascript" src="./Extjs4.2/adapter/ext/ext-base.js"></script>
+    <!-- 引入extjs-all -->
+    <script type="text/javascript" src="./Extjs4.2/ext-all.js"></script>
+    <!-- <script type="text/javascript" src="extjs/ext-lang-zh_CN.js" charset="utf-8"></script> -->
+    <script type="text/javascript">
+        Ext.onReady(function() {        
+        //var button = Ext.get('show-btn');   
+        var win;
+         //button.on('click', function() {   
+            //创建TabPanel   
+            var tabs = new Ext.TabPanel({   
+                 region: 'center', //border 布局，将页面分成东，南，西，北，中五部分，这里表示TabPanel放在中间   
+                 margins: '3 3 3 0',   
+                 activeTab: 0,   
+                 defaults: {   
+                    autoScroll: true   
+                 },  
+                 items: [{   
+                     title: 'Bogus Tab',   
+                     html: "第一个Tab的内容."   
+                 }, {   
+                     title: 'Another Tab',   
+                     html: "我是另一个Tab"   
+                 }, {   
+                     title: 'Closable Tab',   
+                     html: "这是一个可以关闭的Tab",   
+                     closable: true   
+                    }]   
+            });   
+   
+                 //定义一个Panel   
+                var nav = new Ext.Panel({   
+                    title: 'Navigation',   
+                     region: 'west', //放在西边，即左侧   
+                     split: true,   
+                     width: 200,   
+                     collapsible: true, //允许伸缩   
+                     margins: '3 0 3 3',   
+                     cmargins: '3 3 3 3'   
+                 });   
+    
+                 //如果窗口第一次被打开时才创建   
+                 //if (!win) {   
+                     win = new Ext.Window({   
+                         title: 'Layout Window',   
+                         closable: true,   
+                         width: 600,   
+                         height: 350,   
+                         border : false,   
+                         plain: true,   
+                         layout: 'border',   
+                         closeAction:'hide',   
+                         items: [nav, tabs]//把上面创建的panel和TabPanel放在window中，并采用border方式布局   
+                     });   
+                     
+                     win.show();
+                 //}   
+                // win.show(button);   
+        // });   
+        });  
+    </script>
+  </head>
+  
+  <body>
+    This is my HTML page. <br>
+
+  </body>
+</html>

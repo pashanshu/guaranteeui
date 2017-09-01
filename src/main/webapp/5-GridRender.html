@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Hello Extjs4.2</title>
+<link href="./Extjs4.2/resources/css/ext-all-neptune.css" rel="stylesheet">
+<script src="./Extjs4.2/ext-all.js"></script>
+<script src="./Extjs4.2/locale/ext-lang-zh_CN.js"></script>
+<script type="text/javascript">
+//改变列颜色自定义renderner方法，暂时没有实现
+
+//表格数据最起码有列、数据、转换原始数据这3项
+Ext.onReady(function(){
+	
+	//定义列
+    var columns = [
+        {header:'编号',dataIndex:'id',width:50}, //sortable:true 可设置是否为该列进行排序
+        {header:'名称',dataIndex:'name',width:80},
+        {header:'描述',dataIndex:'descn',width:112},
+        {header:'状态',dataIndex:'status',width:80,renderer:function(value){
+            if(value=='可用'){
+                return "<span style='color:green;font-weight:bold';>可用</span><img src='images/right.gif' />";
+            } else {
+                return "<span style='color:red;font-weight:bold';>禁用</span><img src='images/wrong.gif' />";
+            }
+        }}
+      ];
+    
+    //定义数据
+    var data =[
+        ['1','小王','描述01','可用'],
+        ['2','李四','描述02','禁用'],
+        ['3','张三','描述03','可用'],
+        ['4','束洋洋','思考者日记网','可用'],
+        ['5','高飞','描述05','禁用']
+    ];
+    //转换原始数据为EXT可以显示的数据
+    var store = new Ext.data.ArrayStore({
+        data:data,
+        fields:[
+           {name:'id'}, //mapping:0 这样的可以指定列显示的位置，0代表第1列，可以随意设置列显示的位置
+           {name:'name'},
+           {name:'descn'},
+           {name:'status'}
+        ]
+    });
+    //加载数据
+    store.load();
+    //表格控件默认使用RowModel，按住shift或者ctrl键单击鼠标就可以选择多行，如果希望只选择一行，可以使用singleSelect:true
+    //我发现我在写的时候，不用的情况下，我试了发现默认就是不可多选的
+    //var sm = new Ext.grid.RowModel({singleSelect:true});
+    //创建表格
+    var grid = new Ext.grid.GridPanel({
+        renderTo:'grid', //渲染位置
+        width:450,
+        height:150,
+        //selModel:sm,
+        store:store, //转换后的数据
+        columns:columns, //显示列
+        stripeRows:true, //斑马线效果
+        //enableColumnMove: false, //禁止拖放列
+        //enableColumnResize: false, //禁止改变列宽度
+        loadMask:true, //显示遮罩和提示功能,即加载Loading……
+        //forceFit:true //自动填满表格
+        viewConfig:{
+            columnsText:'显示的列',
+            scrollOffset:30, //表格右侧为滚动条预留的宽度,默认为20
+            sortAscText:'正序',
+            sortDescText:'倒序',
+            forceFit:true //表格会自动延展每列的长度，使内容填满整个表格
+        }
+    });
+});
+</script>
+</head>
+<body>
+
+<h2>深入浅出ExtJS之表格视图--Ext.grid.GridView</h2>
+<div id="grid"></div>
+</body>
+</html>

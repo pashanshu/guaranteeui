@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="textml; charset=utf-8" />
+    <title></title>
+    <!--ExtJs框架开始-->
+    <link rel="stylesheet" type="text/css" href="./Extjs4.2/resources/css/ext-all.css" />
+    <script type="text/javascript" src="./Extjs4.2/ext-all.js"></script>
+     <script type="text/javascript" src="./Extjs4.2/locale/ext-lang-zh_CN.js"></script>
+    
+    <!--ExtJs框架结束-->
+    <script type="text/javascript">
+    Ext.onReady(function(){
+        var columns = [
+                       {header:'编号',dataIndex:'id'},
+                       {header:'名称',dataIndex:'name'},
+                       {header:'描述',dataIndex:'descn'}
+                   ];
+           
+        var data = [
+            ['1','name1','descn1'],
+            ['2','name2','descn2'],
+            ['3','name3','descn3'],
+            ['4','name4','descn4'],
+            ['5','name5','descn5']
+        ];
+           
+        var store = new Ext.data.ArrayStore({
+            data: data,
+            fields: [
+                {name: 'id'},
+                {name: 'name'},
+                {name: 'descn'}
+            ]
+        });
+        store.load();
+           
+        var grid = new Ext.grid.GridPanel({
+            renderTo: 'grid',
+            store: store,
+            columns: columns
+        });
+               
+        //表格右键菜单
+        var contextmenu = new Ext.menu.Menu({
+            id:'theContextMenu',
+            items:[{
+                text:'查看详情',
+                handler:function(){
+                    Ext.Msg.alert("系统提示","测试");
+                }
+            }]
+        });
+               
+        grid.on("itemcontextmenu",function(view,record,item,index,e){
+            e.preventDefault();
+            contextmenu.showAt(e.getXY());
+        });
+    });
+    </script>
+</head>
+<body>
+<div id="grid"></div>
+</body>
+</html>

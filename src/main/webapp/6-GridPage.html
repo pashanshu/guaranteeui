@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="textml; charset=utf-8" />
+    <title></title>
+    <!--ExtJs框架开始-->
+    <link rel="stylesheet" type="text/css" href="./Extjs4.2/resources/css/ext-all.css" />
+    <script type="text/javascript" src="./Extjs4.2/ext-all.js"></script>
+     <script type="text/javascript" src="./Extjs4.2/locale/ext-lang-zh_CN.js"></script>
+    
+    <!--ExtJs框架结束-->
+    <script type="text/javascript">
+  //表格数据最起码有列、数据、转换原始数据这3项
+    Ext.onReady(function(){
+    	//定义列
+    	var columns = [
+    	       {header:'编号',dataIndex:'id',width:50}, //sortable:true 可设置是否为该列进行排序
+    	       {header:'名称',dataIndex:'name',width:80},
+    	       {header:'描述',dataIndex:'descn',width:112}
+    	  ];
+    	       
+    	//转换原始数据为EXT可以显示的数据
+    	var store = new Ext.data.Store({
+    	    proxy:{
+    	        type:'ajax',
+    	        url:'/ExtJs4.2Pro/userServlet',
+    	        reader:{
+    	            type:'json',
+    	            totalProperty:'total',
+    	            root:'root',
+    	            idProperty:'id'
+    	        }
+    	    },
+    	    fields:[
+    	       {name:'id'}, //mapping:0 这样的可以指定列显示的位置，0代表第1列，可以随意设置列显示的位置
+    	       {name:'name'},
+    	       {name:'descn'},
+    	       {name:'status'}
+    	    ]
+    	});
+    	       
+    	       
+    	//创建表格
+    	var grid = new Ext.grid.GridPanel({
+    	    renderTo:'grid', //渲染位置
+    	    autoHeight:true,
+    	    store:store,
+    	    width:550,
+    	    columns:columns, //显示列
+    	    bbar:new Ext.PagingToolbar({
+    	        pageSize:25, //每页显示几条数据
+    	        store:store, 
+    	        displayInfo:true, //是否显示数据信息
+    	        displayMsg:'显示第 {0} 条到 {1} 条记录，一共  {2} 条', //只要当displayInfo为true时才有效，用来显示有数据时的提示信息，{0},{1},{2}会自动被替换成对应的数据
+    	        emptyMsg: "没有记录" //没有数据时显示信息
+    	    })
+    	});
+    	       
+    	//加载数据
+    	store.load({params:{start:0,limit:25}});
+    });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

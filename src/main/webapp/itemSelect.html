@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="textml; charset=utf-8" />
+    <title></title>
+    <!--ExtJs框架开始-->
+    <link rel="stylesheet" type="text/css" href="./Extjs4.2/resources/css/ext-all.css" />
+    <script type="text/javascript" src="./Extjs4.2/ext-all.js"></script>
+     <script type="text/javascript" src="./Extjs4.2/locale/ext-lang-zh_CN.js"></script>
+    
+    <!-- 再加三个文件，1CSS+2js -->
+    <link rel="stylesheet" type="text/css" href="./Extjs4.2/MultiSelect/css/ItemSelector.css" />
+    <script type="text/javascript" src="./Extjs4.2/MultiSelect/ItemSelector.js"></script>
+    <script type="text/javascript" src="./Extjs4.2/MultiSelect/MultiSelect.js"></script>
+     
+    <!--ExtJs框架结束-->
+    <script type="text/javascript">  
+    Ext.onReady(function(){
+        //定义数组数据
+        var ds = Ext.create('Ext.data.ArrayStore', {
+             data: [['1', 'One'], ['2', 'Two'], ['3', 'Three']],
+             fields: ['value','text'],
+             sortInfo: {
+                  field: 'value',
+                 direction: 'ASC'
+            }
+       });
+        
+        
+        
+        
+        
+        
+        
+        /*select  = new Ext.ux.form.ItemSelector({
+			id:'roles',
+			name: 'roleGroupInfo.roles',
+	    	imagePath: './Extjs4.2/MultiSelect/css/images/',
+	    	renderTo: 'roleselector',
+        	multiselects: [{
+        		id:'first',
+            	width: 200,
+            	height: 150,
+            	legend: '待选择角色',
+            	store: ds,
+            	displayField: 'text',
+            	valueField: 'id'
+      		},{
+      			id:'second',
+            	width: 200,
+            	height: 150,
+            	legend:'已选择角色',
+            	store: toStore,
+				displayField: 'text',
+            	valueField: 'id'
+        	}]
+		});
+		var isForm = new Ext.form.FormPanel({
+            title: 'ItemSelector Test',
+            width:700,
+            bodyStyle: 'padding:10px;',//定义样式表
+            renderTo: 'myDiv',//指定需要渲染到什么节点上
+            items:[{
+                xtype: 'itemselector',
+                id : 'myIt',
+                imagePath: './Extjs4.2/MultiSelect/css/images/',//左右移动的图片
+                multiselects: [{//定义左边数据
+                width: 250,
+                height: 200,
+                store: ds,
+                displayField: 'text',
+                valueField: 'value'
+           },{//定义右边为空数据
+                width: 250,
+                height: 200,
+                store: [[]]
+          }]
+    }], 
+    
+    //Form表单的button按钮
+      buttons: [{
+          text: 'Save',
+          handler: function(){//获取选择的数据
+                 if(isForm.getForm().isValid()){
+                      alert(Ext.getCmp("myIt").getValue());
+                      //打印出来，会自动拼接成字符串，但前面会多出一个‘,’--因为右边第一次会有一个默认的数据
+                  }
+           }
+   		 }]
+ 	});*///Form表单到此结束
+ //	var form =new  Ext.widget('form', {
+	 var form=Ext.create('Ext.form.Panel',{
+    	        title: 'MultiSelect Test',
+    	        width: 800,
+    	        height : 600,
+    	        bodyPadding: 10,
+    	        renderTo: 'multiselect',
+    	        items:[{
+    	            xtype: 'itemselector',
+    	            name: 'itemselector',
+    	            id: 'itemselector-field',
+    	            height : 200,
+    	            fieldLabel: '左右选择框',
+    	           // imagePath: '../ux/images/',
+    	           imagePath: './Extjs4.2/MultiSelect/css/images/',
+    	            store: ds,
+    	            displayField: 'text',
+    	            valueField: 'value',
+    	            value: ['11', '22', '33'],
+    	            allowBlank: false,
+    	            msgTarget: 'side',
+    	            fromTitle: 'Available',
+    	            toTitle: 'Selected'
+    	        }],
+    	       /* buttons: [{
+    	        	text: 'Save',
+                    handler: function(){
+                        var form = Ext.getCmp(itemselector-field).up('form').getForm();
+                        form.getValues(true);
+                        if (form.isValid()){
+                            Ext.Msg.alert('Submitted Values', 'The following will be sent to the server: <br />'+
+                                form.getValues(true));
+                        }
+                    }
+    	     		 }]*/
+    	     		buttons: [{
+    	     	          text: 'Save',
+    	     	          handler: function(){//获取选择的数据
+    	     	                 if(form.getForm().isValid()){
+    	     	                      alert(Ext.getCmp("itemselector-field").getValue());
+    	     	                      //打印出来，会自动拼接成字符串，但前面会多出一个‘,’--因为右边第一次会有一个默认的数据
+    	     	                  }
+    	     	           }
+    	     	   		 }]
+    	    });
+ 	
+ 	
+});
+
+</script>
+</head>
+<body>
+  <div id="multiselect"></div>
+</body>
+</html>

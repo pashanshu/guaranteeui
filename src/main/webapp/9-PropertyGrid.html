@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="textml; charset=utf-8" />
+    <title></title>
+    <!--ExtJs框架开始-->
+    <link rel="stylesheet" type="text/css" href="./Extjs4.2/resources/css/ext-all.css" />
+    <script type="text/javascript" src="./Extjs4.2/ext-all.js"></script>
+     <script type="text/javascript" src="./Extjs4.2/locale/ext-lang-zh_CN.js"></script>
+    
+    <!--ExtJs框架结束-->
+    <script type="text/javascript">
+    //属性表格扩展自EditGrid，所以可以直接编辑右边的内容。
+    //注意，只有右边的，即使你单击左边的单元格，编辑器也只会出现在右边。
+   	Ext.onReady(function(){
+   		var grid = new Ext.grid.PropertyGrid({
+   	        title:'属性表格', //表格标题
+   	        autoHeight:true, //有了它就不需要我们为div指定style
+   	        width:300,
+   	        renderTo:'grid',
+   	        viewConfig:{
+   	            forceFit:true
+   	        },
+   	        source:{ //json数据里指定了一组key和value
+   	            "名字":"束洋洋",
+   	            "创建时间":new Date(Date.parse('2013/11/15')),
+   	            "是否有效":false,
+   	            "版本号":.01,
+   	            "描述":"ExtJs4.2学习之路"
+   	        }
+   	    });
+   	})
+    </script>
+</head>
+<body>
+<div id="grid"></div>
+</body>
+</html>

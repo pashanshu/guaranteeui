@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <!--ExtJs框架开始-->
+    <link rel="stylesheet" type="text/css" href="./Extjs4.2/resources/css/ext-all.css" />
+    <script type="text/javascript" src="./Extjs4.2/ext-all.js"></script>
+     <script type="text/javascript" src="./Extjs4.2/locale/ext-lang-zh_CN.js"></script>
+    <!-- 再加三个文件，1CSS+2js -->
+    <link rel="stylesheet" type="text/css" href="./Extjs4.2/MultiSelect/css/ItemSelector.css" />
+    <script type="text/javascript" src="./Extjs4.2/MultiSelect/ItemSelector.js"></script>
+    <script type="text/javascript" src="./Extjs4.2/MultiSelect/MultiSelect.js"></script>
+    <!--ExtJs框架结束-->
+    <script type="text/javascript">
+    Ext.onReady(function(){
+    	
+    	 //定义数组数据
+        var ds = Ext.create('Ext.data.ArrayStore', {
+             data: [['上午', '上午'], ['下午', '下午'], ['晚上', '晚上']],//第一个参数表示id，通过方法可以得到这个值，第二个表示显示页面的值
+             fields: ['value','text'],
+             sortInfo: {
+                  field: 'value',
+                 direction: 'ASC'
+            }
+       });
+    	
+    	var form=Ext.create('Ext.form.Panel',{
+    	title:'表单',
+    	width:340,
+    	bodyPadding:10,//在body元素上设置padding样式的快捷方式。
+    	frame:true,
+    	buttonAlign:'center',//居中
+    	renderTo:Ext.getBody(),
+    	items:[
+    	//输入框
+    	{
+    	xtype:'textfield',
+    	name:'name',
+    	fieldLabel:'姓名',
+    	allowBlank:false,
+    	maxLength:10
+    	},
+    	//单选框
+    	{
+    	xtype:'combobox',
+    	name:'level',
+    	fieldLabel:'身份',
+    	emptyText:'请选择',
+    	allowBlank:false,
+    	store:[['正式员工','正式员工'],['实习生','实习生'],['外包人员','外包人员']]
+    	},
+    	//多选框
+    	/*{
+    	xtype:'checkboxgroup',
+    	name:'interest',
+    	fieldLabel:'爱好',
+    	allowBlank:false,
+    	items:[{
+    	boxLabel:'编程',
+    	name:'coding',
+    	inputValue:'1',
+    	id:'checkbox1',
+    	checked:true
+    	},{
+    	boxLabel:'打球',
+    	name:'ball',
+    	inputValue:'2',
+    	id:'checkbox2'
+    	},{
+        	boxLabel:'跑步',
+        	name:'run',
+        	inputValue:'3',
+        	id:'checkbox3'
+        	}]
+    	
+    	}, */
+    	//多选框
+    	{
+    		xtype: 'checkboxgroup',
+    		fieldLabel: '兴趣',
+    		id: 'hobby',
+    		columns: 2,
+    		vertical: true,
+    		items: [
+    		{ boxLabel: '音乐', name: 'rb', inputValue: '1', checked: true },
+    		{ boxLabel: '运动', name: 'rb', inputValue: '2' },
+    		{ boxLabel: '画画', name: 'rb', inputValue: '3' }
+    		]
+    	},
+    	//文件上传文本框
+    	{
+		xtype:'filefield',
+		name:'file',
+		id:'file',
+		fieldLabel:'上传',
+		allowbBlank:false,
+		msgTarget:'side',
+		buttonText:'选择文件'
+		},
+		//左右选择框
+        {
+            xtype: 'itemselector',
+            name: 'worktime',
+            id: 'worktime',
+            height : 200,
+            fieldLabel: '选择上班时间',
+           // imagePath: '../ux/images/',
+           imagePath: './Extjs4.2/MultiSelect/css/images/',
+            store: ds,
+            displayField: 'text',
+            valueField: 'value',
+           
+            allowBlank: false,
+            msgTarget: 'side',
+            fromTitle: '选择时间',
+            toTitle: '工作时间'
+        }
+    	]//form表单的items属性在此结束
+    	, 
+    	//Form表单的按钮设置，其中的handler属性方法可以使用url与后台进行交互
+    	buttons: [{
+    	        text: '保存',
+    	        handler: function() {
+    	            var form=this.up('form');
+    	            var name=form.down('textfield[name=name]').value;
+    	            var  sf=form.down('combobox[name=level]').value; 
+    	           
+    	            if(!name){
+        	          	alert('名字不能为空！');
+        	           	return;}
+    	            if(!sf){
+    	            	alert('身份不能为空！');
+    	            	return;}
+    	            
+    	            var hobbyValue = Ext.getCmp('hobby').getChecked();
+    	            var hobby="";
+    	            Ext.Array.each(hobbyValue, function(item){
+    	           // hobby += ' '+ item.boxLabel;
+    	            hobby+=','+item.boxLabel;
+    	            }); 
+    	            hobby=hobby.substring(1);
+    	            
+    	            var file=Ext.getCmp("file").getValue();
+    	            
+    	            var worktime=Ext.getCmp("worktime").getValue();
+    	            var wc="";
+    	            for(var i=0;i<worktime.length;i++){
+    	            	wc += ","+worktime[i];
+    	            }
+    	            wc = wc.substring(1);
+    	           
+    	           
+    	            var totalMessage='姓名：'+name+' 身份：'+sf+' 兴趣：'+hobby+' 上传文件地址：'+file+' 上班时间： '+worktime;
+    	            
+    	            //Ext.MessageBox.alert('提示', '输入的地址' + file);
+    	            //Ext.MessageBox.alert('提示','输入的左右选择框是'+itemselector);
+    	            
+    	           // if(form.getForm().isValid()){
+	                //      alert(itemselector);}
+	                      //打印出来，会自动拼接成字符串，但前面会多出一个‘,’--因为右边第一次会有一个默认的数据
+	                //  
+    	          //  Ext.MessageBox.alert('提示', '您的兴趣是' + hobby);
+    	          // Ext.MessageBox.alert('提示框',sf);
+    	          // Ext.MessageBox.alert('提示框','提交成功，正在保存数据，请稍后！');
+    	          //Ext.MessageBox.alert('输入信息为:','姓名：'+name+'<br />'+' 身份：'+sf+'<br />'+' 兴趣：'+hobby+'<br />'+' 上传文件地址：'+file+'<br />'+' 上班时间： '+worktime);
+    	          var json={};
+    	       	  Ext.apply(json,{name:name,sf:sf,hobby:hobby,file:file,worktime:wc});
+    	          //window.alert(Ext.encode(json));
+    	       	  //return;
+    	          Ext.Ajax.request({//此处进行保存数据到后端
+                      method:'POST',
+                      //url:就是我们要请求的路径
+                      url:'/Extjs/FormServlet',
+                      //success:是服务器处理成功返回
+                      success:function(response){
+                         // Ext.Msg.alert('返回成功',response.responseText,function(){
+                         //    store.load();
+                         // });
+                         Ext.Msg.alert("返回信息","提交成功。");
+                      },
+                      //failure:是服务器处理失败返回
+                      failure:function(){
+                          Ext.Msg.alert("错误","与后台联系的时候出了问题。");
+                      },//{name:name,sf:sf,hobby:hobby,file:file,worktime:worktime}
+                      //params:里面的参数用逗号隔开，就是我们要发出请求带的参数
+                      //params:'data='+totalMessage
+                      // params:'data='+encodeURIComponent(Ext.encode(json))
+                      params:json
+                  });
+    	        
+    	        }
+    	    }]
+    	});//form表单在此结束
+
+    	var win = new Ext.Window({
+    	                title: '窗口',
+    	                width: 340,
+    	                height: 500,
+    	                resizable: true,
+    	                modal: true,
+    	                closable: true,
+    	                maximizable: true,
+    	                minimizable: true,
+    	                items: form //将form表单放入win窗口中
+    	  });//win窗口在此结束
+    	
+    	win.show();//显示窗口
+    	});
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

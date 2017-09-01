@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="textml; charset=utf-8" />
+    <title></title>
+    <!--ExtJs框架开始-->
+    <link rel="stylesheet" type="text/css" href="./Extjs4.2/resources/css/ext-all.css" />
+    <script type="text/javascript" src="./Extjs4.2/ext-all.js"></script>
+     <script type="text/javascript" src="./Extjs4.2/locale/ext-lang-zh_CN.js"></script>
+    
+    <!--ExtJs框架结束-->
+    <script type="text/javascript">
+  //引入扩展组件,失败
+    Ext.Loader.setConfig({enabled: true});
+                 
+    Ext.Loader.setPath('Ext.ux', '../ExtJS4.2/ux/');
+                 
+    Ext.require([
+        'Ext.data.*',
+        'Ext.grid.*',
+        'Ext.util.*',
+        'Ext.tip.QuickTipManager',
+        'Ext.ux.data.PagingMemoryProxy',
+        'Ext.ux.ProgressBarPager'
+    ]);
+    //表格数据最起码有列、数据、转换原始数据这3项
+    Ext.onReady(function(){
+        //定义列
+        var columns = [
+            {
+                text:'第一组',
+                locked: true,
+                columns:[
+                         {header:'编号',dataIndex:'id',width:50},
+                         {header:'名称',dataIndex:'name',width:80},
+                         {header:'描述',dataIndex:'descn',width:112},
+                         {header:'状态',dataIndex:'status',width:80,renderer:function(value){
+                            if(value=='可用'){
+                                return "<span style='color:green;font-weight:bold';>可用</span><img src='images/right.gif' />";
+                            } else {
+                                return "<span style='color:red;font-weight:bold';>禁用</span><img src='images/wrong.gif' />";
+                            }
+                         }}]
+            },
+            {text:'第2组',
+                columns:[
+                         {header:'编号',dataIndex:'id',width:50},
+                         {header:'名称',dataIndex:'name',width:80},
+                         {header:'描述',dataIndex:'descn',width:112},
+                         {header:'状态',dataIndex:'status',width:80,renderer:function(value){
+                            if(value=='可用'){
+                                return "<span style='color:green;font-weight:bold';>可用</span><img src='images/right.gif' />";
+                            } else {
+                                return "<span style='color:red;font-weight:bold';>禁用</span><img src='images/wrong.gif' />";
+                            }
+                         }}]
+            }
+          ];
+        //定义数据
+        var data =[
+            ['1','小王','描述01','可用'],
+            ['2','李四','描述02','禁用'],
+            ['3','张三','描述03','可用'],
+            ['4','束洋洋','思考者日记网','可用'],
+            ['5','高飞','描述05','禁用'],
+            ['6','小王','描述01','可用'],
+            ['7','李四','描述02','禁用'],
+            ['8','张三','描述03','可用'],
+            ['9','束洋洋','思考者日记网','可用'],
+            ['10','高飞','描述05','禁用'],
+            ['11','小王','描述01','可用'],
+            ['12','李四','描述02','禁用'],
+            ['13','张三','描述03','可用'],
+            ['14','束洋洋','思考者日记网','可用'],
+            ['15','高飞','描述05','禁用'],
+            ['16','小王','描述01','可用'],
+            ['17','李四','描述02','禁用'],
+            ['18','张三','描述03','可用'],
+            ['19','束洋洋','思考者日记网','可用'],
+            ['20','高飞','描述05','禁用'],
+            ['21','小王','描述01','可用'],
+            ['22','李四','描述02','禁用'],
+            ['23','张三','描述03','可用'],
+            ['24','束洋洋','思考者日记网','可用'],
+            ['25','高飞','描述05','禁用']
+        ];
+        //转换原始数据为EXT可以显示的数据
+        var store = new Ext.data.ArrayStore({
+            data:data,
+            fields:[
+               {name:'id'}, //mapping:0 这样的可以指定列显示的位置，0代表第1列，可以随意设置列显示的位置
+               {name:'name'},
+               {name:'descn'},
+               {name:'status'}
+            ],
+            //buffered:true //缓冲式表格视图
+        });
+        //加载数据
+        store.load();
+                 
+        //创建表格
+        var grid = new Ext.grid.GridPanel({
+            renderTo:'grid', //渲染位置
+            autoHeight:true,
+            width:665,
+            height: 350,
+            store:store,
+            frame:true,
+            columns:columns, //显示列
+            stripeRows:true, //斑马线效果
+            //enableColumnMove: false, //禁止拖放列
+            //enableColumnResize: false, //禁止改变列宽度
+            loadMask:true, //显示遮罩和提示功能,即加载Loading……
+            //forceFit:true //自动填满表格
+            bbar: Ext.create('Ext.PagingToolbar', {
+                pageSize: 10,
+                store: store,
+                displayInfo: true,
+                plugins: new Ext.ux.ProgressBarPager()
+            })
+        });
+    });
+    </script>
+</head>
+<body>
+<div id="grid"></div>
+</body>
+</html>

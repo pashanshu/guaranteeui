@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="textml; charset=utf-8" />
+    <title></title>
+    <!--ExtJs框架开始-->
+    <link rel="stylesheet" type="text/css" href="./Extjs4.2/resources/css/ext-all.css" />
+    <script type="text/javascript" src="./Extjs4.2/ext-all.js"></script>
+    
+    
+    <!--ExtJs框架结束-->
+    <script type="text/javascript">
+   
+    /* Start ExtJS 中自定义类 **/
+    Ext.define("Person", {
+        Name: '',
+        Age: 0,
+        Say: function (msg) {
+            Ext.Msg.alert(this.Name + " Says:", msg);
+        },
+        constructor: function (name, age) {//自定义初始化构造函数，先执行
+            this.Name = name;
+            this.Age = age;
+        }
+    });
+    Ext.onReady(function(){
+        var Tom = new Person("束洋洋", 22);
+        Tom.Say("你好，ExtJs4.2");
+    });
+    /* END ExtJS 中自定义类 **/
+           
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="textml; charset=utf-8" />
+    <title></title>
+    <!--ExtJs框架开始-->
+    <link rel="stylesheet" type="text/css" href="./Extjs4.2/resources/css/ext-all.css" />
+    <script type="text/javascript" src="./Extjs4.2/ext-all.js"></script>
+     <script type="text/javascript" src="./Extjs4.2/locale/ext-lang-zh_CN.js"></script>
+    
+    <!--ExtJs框架结束-->
+    <script type="text/javascript">
+    Ext.onReady(function(){
+        
+        var field = new Ext.form.TextField({
+            fieldLabel: 'empty', //输入控件前显示名称
+            allowBlank: false, //是否允许为空
+            emptyText:'空', //没有输入任何内容提示文字
+            maxLength:50, //输入最大字符串长度
+            minLength:10 //输入最小字符串长度
+        });
+                      
+        var fieldTextArea = new Ext.form.TextArea({
+            width:200,
+            grow:true, //会根据输入内容自动修改自身高度
+            preventScrollbars:true, //防止出现滚动条，如果内容超出显示范围就会自动隐藏
+            fieldLabel:'empty',
+            allowBlank:false,
+            emptyText:'空',
+            maxLength:50,
+            minLength:10
+        });
+                      
+        var fieldDate = new Ext.form.DateField({
+            fieldLabel:'日期',
+            emptyText:'请选择',
+            format:'Y-m-d',
+            disabledDays:[0,6] //禁止选择的日期
+        }); 
+                  
+        var form = new Ext.form.FormPanel({
+            title: '表单输入控件演示',
+            width:500,
+            frame: true,
+            items: [field,fieldTextArea,fieldDate],
+            renderTo: 'form'
+        });
+    });
+    </script>
+</head>
+<body>
+<div id="form"></div>
+</body>
+</html>

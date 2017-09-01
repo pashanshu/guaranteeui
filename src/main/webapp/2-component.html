@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="textml; charset=utf-8" />
+    <title></title>
+    <!--ExtJs框架开始-->
+    <link rel="stylesheet" type="text/css" href="./Extjs4.2/resources/css/ext-all.css" />
+    <script type="text/javascript" src="./Extjs4.2/ext-all.js"></script>
+    
+    
+    <!--ExtJs框架结束-->
+    <script type="text/javascript">
+   
+    /* Start ExtJS 中自定义类 **/
+  //整体生命周期为：初始化、渲染、显示、隐藏
+  Ext.onReady(function(){
+      var box = new Ext.Panel({
+          el: 'test',
+          title:'测试标题',
+          floating:true,
+          draggable:true,
+          html:'测试内容',
+          pageX:400,
+          pageY:350,
+          width:200,
+          height:150
+      });
+      box.render();
+  });
+  /*Ext.onReady(function(){
+      var box = new Ext.Component({
+          el: 'test',//这是例二，配合下面的div id=test使用的
+          style:'background-color:red;position:absoulte',
+          pageX:100,
+          pageY:50,
+          width:200,
+          height:150
+      });
+      box.render();
+  });*/
+  /* END ExtJS 中自定义类 **/
+    </script>
+</head>
+<body>
+<h1>我的ExtJS4.2学习之路</h1>
+<hr />
+作者：束洋洋
+开始日期：2013-11-05 22:35:38
+<h2>深入浅出Extjs之统一的组件模型</h2>
+<div id="test"></div>
+</body>
+</html>

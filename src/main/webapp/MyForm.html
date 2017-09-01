@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="textml; charset=utf-8" />
+    <title></title>
+    <!--ExtJs框架开始-->
+    <link rel="stylesheet" type="text/css" href="./Extjs4.2/resources/css/ext-all.css" />
+    <script type="text/javascript" src="./Extjs4.2/ext-all.js"></script>
+    
+    
+    <!--ExtJs框架结束-->
+    <script type="text/javascript">
+    Ext.onReady(function(){
+    	var form=Ext.create('Ext.form.Panel',{
+    	title:'表单',
+    	width:340,
+    	bodyPadding:10,//在body元素上设置padding样式的快捷方式。
+    	frame:true,
+    	buttonAlign:'center',//居中
+    	renderTo:Ext.getBody(),
+    	items:[{
+    	xtype:'textfield',
+    	        	name:'id',
+    	        	fieldLabel:'编号',
+    	        	allowBlank:false,
+    	        	maxLength:10
+    	},{
+    	xtype:'textfield',
+    	        	name:'useName',
+    	        	fieldLabel:'名称',
+    	        	allowBlank:false,
+    	        	maxLength:20
+    	},{
+    	xtype:'combobox',
+    	name:'level',
+    	fieldLabel:'风险级别',
+    	emptyText:'请选择',
+    	allowBlank:false,
+    	store:[['zd','重大污染源'],['cy','非重大污染源'],['mg','环境敏感区']]
+    	},{
+    	xtype:'checkboxgroup',
+    	fieldLabel:'源区类型',
+    	allowBlank:false,
+    	items:[{
+    	boxLabel:'贵阳片区',
+    	name:'gy',
+    	inputValue:'1',
+    	                id:'checkbox1',
+    	                checked:true
+    	},{
+    	boxLabel:'安顺片区',
+    	name:'as',
+    	inputValue:'2',
+    	                id:'checkbox2'
+    	}]
+    	},{
+    	xtype:'numberfield',
+    	        	name:'jd',
+    	        	fieldLabel:'经度',
+    	        	allowBlank:false,
+    	        	allowDecimals:true,
+    	        	allowNegative:false,
+    	        	maxLength:7,
+    	        	decimalPrecision:4,
+    	        	decimalSeparator:'.'
+    	},{
+    	xtype:'numberfield',
+    	        	name:'wd',
+    	        	fieldLabel:'纬度',
+    	        	allowBlank:false,
+    	        	allowDecimals:true,
+    	        	allowNegative:false,
+    	        	maxLength:7,
+    	        	decimalPrecision:4,
+    	        	decimalSeparator:'.'
+    	},{
+    	xtype:'radiogroup',
+    	        	fieldLabel:'控制方式',
+    	        	columns:3,
+    	        	vertical:true,
+    	        	allowBlank:false,
+    	        	items: [
+    	            	{boxLabel:'国控',name:'kz',inputValue:'1',checked:true},
+    	            	{boxLabel:'省控',name:'kz',inputValue:'2'},
+    	            	{boxLabel:'市控',name:'kz',inputValue:'3'}
+    	        	],
+    	        	listeners:{'change':function(o,newValue,oldValue){
+    	        	var form = o.up('form'),
+    	        	gkcombox=form.down('combobox[name=gk]'),
+    	        	skcombox=form.down('combobox[name=sk]'),
+    	        	sscombox=form.down('combobox[name=ss]')
+    	        	;
+    	        	if(1==newValue.kz){
+    	        	gkcombox.setVisible(true);
+    	        	skcombox.setVisible(false);
+    	        	sscombox.setVisible(false);
+    	        	}
+    	        	if(2==newValue.kz){
+//    	        	var form=o.up('form');
+//    	        	var combo=Ext.create('Ext.form.ComboBox',{//创建新的组件
+//    	        	name:'gk',
+//    		fieldLabel:'国控',
+//    		store:[['gk1','国控一企'],['gk2','国控二企'],['gk3','国控三企']]
+//    	        	});
+//    	        	form.add(combo);
+    	        	gkcombox.setVisible(false);
+    	        	skcombox.setVisible(true);
+    	        	sscombox.setVisible(false);
+    	        	}
+    	        	if(3==newValue.kz){
+    	        	gkcombox.setVisible(false);
+    	        	skcombox.setVisible(false);
+    	        	sscombox.setVisible(true);
+    	        	}
+    	        	}
+    	        	}
+    	},{
+    	xtype:'combobox',
+    	name:'gk',
+    	fieldLabel:'国控',
+    	emptyText:'请选择',
+    	allowBlank:false,
+    	store:[['gk1','国控一企'],['gk2','国控二企'],['gk3','国控三企']]
+    	},{
+    	xtype:'combobox',
+    	name:'sk',
+    	fieldLabel:'省控',
+    	emptyText:'请选择',
+    	allowBlank:false,
+    	hidden:true,
+    	store:[['sk1','省控一企'],['sk2','省控二企'],['sk3','省控三企']]
+    	},{
+    	xtype:'combobox',
+    	name:'ss',
+    	fieldLabel:'市控',
+    	emptyText:'请选择',
+    	allowBlank:false,
+    	hidden:true,
+    	store:[['s1','市控一企'],['s2','市控二企'],['s3','市控三企']]
+    	}
+    	], 
+    	buttons: [{
+    	        text: '保存',
+    	        handler: function() {
+    	            var form=this.up('form');
+    	            var id=form.down('textfield[name=id]').value;
+    	           	var	uname=form.down('textfield[name=useName]').value;
+    	           	if(!id){
+    	           	alert('编号不能为空！');
+    	           	return;
+    	           	}
+    	           	if(!uname){
+    	           	alert('名称不能为空！');
+    	           	return;
+    	           	}
+    	           Ext.MessageBox.alert('提示框','提交成功，正在保存数据，请稍后！');
+    	        }
+    	    }]
+    	});
+
+    	var win = new Ext.Window({
+    	                title: '窗口',
+    	                width: 340,
+    	                height: 374,
+    	                resizable: true,
+    	                modal: true,
+    	                closable: true,
+    	                maximizable: true,
+    	                minimizable: true,
+    	                items: form
+    	            });
+    	            win.show();
+    	});
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
